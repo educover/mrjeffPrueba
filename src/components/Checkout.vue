@@ -10,19 +10,17 @@
             <span class="step-label">{{ stepName }}</span>
         </li>
     </ol>
+    <slot name="anterior"></slot>
+    <slot name="siguiente"></slot>
     <button @click="currentStep--">Anterior</button>
-    <button @click="currentStep++">Siguiente</button>
+    <button @click="siguiente">Siguiente</button>
 </div>
 </template>
 
 <script>
+import {EventBus} from '../EventBus';
 export default {
     name: 'checkout',
-    computed:{
-        anterior(currentStep, $event){
-            currentStep--;
-        }
-    },
     props: {
         currentStep: {
             type: Number,
@@ -31,8 +29,13 @@ export default {
         steps: {
             type: Array,
             required: true
-        }
+        },
     },
+    methods: {
+        siguiente(){
+            EventBus.$emit('sumar', 1);
+        }
+    }
 }
 </script>
 

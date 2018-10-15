@@ -1,6 +1,9 @@
 <template>
   <div class="part">
-    <Checkout :steps="miArr" :current-step="1"></Checkout>
+    <Checkout :steps="miArr" :currentStep="currentStep">
+      <button slot="anterior" @click="anterior">Anterior</button>
+      <button slot="siguiente" @click="siguiente">Siguiente</button>
+    </Checkout>
     <hr>
     <div class="exercise">
       <h1>Ejercicio 1</h1>
@@ -23,7 +26,8 @@
 </template>
 
 <script>
-import Checkout from './Checkout.vue'
+import Checkout from './Checkout.vue';
+import {EventBus} from '../EventBus';
 export default {
   name: 'PartOne',
   components: {
@@ -33,9 +37,14 @@ export default {
     return {
       url: '../assets/stepper.mov',
       miArr:['General', 'Contacto', 'Horario', 'Usuarios', 'Finalizar'],
-      
+      currentStep:1  
     }
-  }
+  },
+  created(){
+        EventBus.$on('sumar', function (i) {
+            this.currentStep++;
+        })
+      }  
 }
 </script>
 
