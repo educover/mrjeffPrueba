@@ -127,6 +127,9 @@ export default {
     },
     dayCorrect(){
       this.diasCorrectos = this.timeType.filter(day=>{
+        for(let i=0; i<day.length; i++){
+
+        }
          day.defaultTimetableTimeSlotConfigurations.filter(dayOk=>{
           if(dayOk.visitTypeCode==="DELIVERY"){
             return dayOk;
