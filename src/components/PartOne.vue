@@ -1,6 +1,6 @@
 <template>
   <div class="part">
-    <Checkout :steps="miArr"></Checkout>
+    <Checkout :steps="miArr" :current-step="1"></Checkout>
     <hr>
     <div class="exercise">
       <h1>Ejercicio 1</h1>
@@ -33,7 +33,7 @@ export default {
     return {
       url: '../assets/stepper.mov',
       miArr:['General', 'Contacto', 'Horario', 'Usuarios', 'Finalizar'],
-      currentStep:[1,2,3,4,5]
+      
     }
   }
 }

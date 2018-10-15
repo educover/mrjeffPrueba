@@ -68,7 +68,7 @@
 
     <hr>
     {{timetableCorrect}}
-    {{dayCorrect}}
+  
   </div>
 </template>
 
@@ -98,7 +98,7 @@ export default {
           
         )
         .then(response => {
-          console.log(response.data);
+          console.log(response);
           this.timetable = response.data;
          
         })
@@ -112,31 +112,25 @@ export default {
     return {
       timetable: [],
       timeType:[],
-      diasCorrectos:[]
+      diasCorrectos:[],
+      otroArray:[]
     };
   },
   computed:{
     timetableCorrect(){
-      console.log('this.diasCorrectos')
-      this.timeType = this.timetable.filter((day, index)=>{
+      this.timeType = this.timetable.filter(day=>{
             if(day.timetableType==="LOGISTICS"){
                 return day;
             }
           })
-          //return this.timetable;
-    },
-    dayCorrect(){
-      this.diasCorrectos = this.timeType.filter(day=>{
-        for(let i=0; i<day.length; i++){
-
-        }
-         day.defaultTimetableTimeSlotConfigurations.filter(dayOk=>{
-          if(dayOk.visitTypeCode==="DELIVERY"){
-            return dayOk;
-          }
-        })
+      this.otroArray =  this.timeType.map(item =>{
+         this.diasCorrectos = item.defaultTimetableTimeSlotConfigurations.filter(i =>{
+           if(i.visitTypeCode==="PICKUP"){
+             return item;
+           }
+         })
       })
-    }
+    },
   }
 };
 </script>

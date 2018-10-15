@@ -10,22 +10,19 @@
             <span class="step-label">{{ stepName }}</span>
         </li>
     </ol>
-    <button>Anterior</button>
-    <button >Siguiente</button>
+    <button @click="currentStep--">Anterior</button>
+    <button @click="currentStep++">Siguiente</button>
 </div>
 </template>
 
 <script>
 export default {
     name: 'checkout',
-    methods:{
-        anterior(){
-            return {
-                'prev': (stepIndex + 1) < currentStep
-            }
+    computed:{
+        anterior(currentStep, $event){
+            currentStep--;
         }
     },
-
     props: {
         currentStep: {
             type: Number,
