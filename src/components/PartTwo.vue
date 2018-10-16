@@ -123,15 +123,24 @@ export default {
                 return day;
             }
           })
-      
     },
     otraComputed(){
-      let a = 0;
+      let a=0;
+      let b=0;
       for (let index = 0; index < this.timeType.length; index++) {
         this.timeType[index].defaultTimetableTimeSlotConfigurations.forEach((item, i)=>{
-          if(item.visitTypeCode!="PICKUP"){
-            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i-a, 1);
-            a++;
+          if(b!==i){
+            console.log('soy la i'+i)
+            a=0;
+            b=0;
+          }
+          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){
+            
+            b++;
+          }else{
+            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i+a, 1);
+            a--;
+            b++;
           }
         }) 
       }
