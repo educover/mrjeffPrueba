@@ -10,9 +10,7 @@
             <span class="step-label">{{ stepName }}</span>
         </li>
     </ol>
-    <slot name="anterior"></slot>
-    <slot name="siguiente"></slot>
-    <button @click="currentStep--">Anterior</button>
+    <button @click="anterior">Anterior</button>
     <button @click="siguiente">Siguiente</button>
 </div>
 </template>
@@ -24,16 +22,19 @@ export default {
     props: {
         currentStep: {
             type: Number,
-            default: 1
+            default: 1,
         },
         steps: {
             type: Array,
             required: true
         },
     },
-    methods: {
+    methods:{
         siguiente(){
-            EventBus.$emit('sumar', 1);
+            EventBus.$emit('siguiente');
+        },
+        anterior(){
+            EventBus.$emit('anterior');
         }
     }
 }

@@ -68,6 +68,7 @@
 
     <hr>
     {{timetableCorrect}}
+    {{otraComputed}}
   
   </div>
 </template>
@@ -112,8 +113,7 @@ export default {
     return {
       timetable: [],
       timeType:[],
-      diasCorrectos:[],
-      otroArray:[]
+      visitCode:[],
     };
   },
   computed:{
@@ -123,14 +123,19 @@ export default {
                 return day;
             }
           })
-      this.otroArray =  this.timeType.map(item =>{
-         this.diasCorrectos = item.defaultTimetableTimeSlotConfigurations.filter(i =>{
-           if(i.visitTypeCode==="PICKUP"){
-             return item;
-           }
-         })
-      })
+      
     },
+    otraComputed(){
+      let a = 0;
+      for (let index = 0; index < this.timeType.length; index++) {
+        this.timeType[index].defaultTimetableTimeSlotConfigurations.forEach((item, i)=>{
+          if(item.visitTypeCode!="PICKUP"){
+            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i-a, 1);
+            a++;
+          }
+        }) 
+      }
+    }
   }
 };
 </script>

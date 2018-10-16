@@ -1,8 +1,6 @@
 <template>
   <div class="part">
     <Checkout :steps="miArr" :currentStep="currentStep">
-      <button slot="anterior" @click="anterior">Anterior</button>
-      <button slot="siguiente" @click="siguiente">Siguiente</button>
     </Checkout>
     <hr>
     <div class="exercise">
@@ -37,14 +35,21 @@ export default {
     return {
       url: '../assets/stepper.mov',
       miArr:['General', 'Contacto', 'Horario', 'Usuarios', 'Finalizar'],
-      currentStep:1  
+      currentStep:1,
     }
-  },
-  created(){
-        EventBus.$on('sumar', function (i) {
-            this.currentStep++;
-        })
-      }  
+  }, 
+  created() {
+    EventBus.$on('siguiente', ()=>{
+      if(this.currentStep<5){
+      this.currentStep++;
+      }
+    })
+    EventBus.$on('anterior', ()=>{
+      if(this.currentStep>1){
+        this.currentStep--;
+      }
+    })
+  }
 }
 </script>
 
