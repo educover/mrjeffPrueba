@@ -68,8 +68,9 @@
 
     <hr>
     {{timetableCorrect}}
-    {{otraComputed}}
+   
   
+  <button @click="otraComputed">filtrar 2 vez</button>
   </div>
 </template>
 
@@ -106,6 +107,31 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    otraComputed(){
+      let a=0;
+      let b=0;
+      let i=0;
+      for (let index = 0; index < this.timeType.length; index++) {
+        for ( i = 0; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
+          if(b!==i){
+            console.log('soy la i'+i)
+            a=0;
+            b=0;
+          }
+          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode!=="PICKUP"){
+            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i-a, 1);
+            a++;
+            b++;
+          }else{
+            
+             console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i+a])
+            
+            b++;
+          }
+          
+        }
+         }
     }
   },
 
@@ -124,27 +150,7 @@ export default {
             }
           })
     },
-    otraComputed(){
-      let a=0;
-      let b=0;
-      for (let index = 0; index < this.timeType.length; index++) {
-        this.timeType[index].defaultTimetableTimeSlotConfigurations.forEach((item, i)=>{
-          if(b!==i){
-            console.log('soy la i'+i)
-            a=0;
-            b=0;
-          }
-          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){
-            
-            b++;
-          }else{
-            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i+a, 1);
-            a--;
-            b++;
-          }
-        }) 
-      }
-    }
+    
   }
 };
 </script>
