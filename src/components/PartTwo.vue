@@ -100,7 +100,6 @@ export default {
           
         )
         .then(response => {
-          console.log(response);
           this.timetable = response.data;
          
         })
@@ -109,25 +108,27 @@ export default {
         });
     },
     otraComputed(){
-      let a=0;
-      let b=0;
-      let i=0;
+      let a;
+      let i;
       for (let index = 0; index < this.timeType.length; index++) {
-        for ( i = 0; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
-          if(b!==i){
-            console.log('soy la i'+i)
-            a=0;
-            b=0;
-          }
-          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode!=="PICKUP"){
-            this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i-a, 1);
-            a++;
-            b++;
+        a=0;
+        i=0;
+        console.log('----------------------------- iteracion-->'+index)
+        for ( i ; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
+          
+          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){
+             console.log('PICKUP-----------' + this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode + i);
+           
+            
           }else{
+            console.log('DELIVERY----------'+this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode + i);
             
-             console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i+a])
+            //console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i])
+             this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i, 1);
+             i--;
+             //console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i-a])
             
-            b++;
+            
           }
           
         }
@@ -139,7 +140,7 @@ export default {
     return {
       timetable: [],
       timeType:[],
-      visitCode:[],
+      visitCode:[]
     };
   },
   computed:{
