@@ -56,19 +56,22 @@
         <br>
         ]
       </div>
+
     </div>
     
     <hr>
-    
+    {{timetableCorrect}}
+   {{otraComputed}}
     <div class="exercise">
       <h1>Ejercicio 5</h1>
       <p>Una vez tenemos los datos formateados, tenemos que mostrarlos por pantalla con el siguiente formato:</p>
       <img src="@/assets/timetable.png">
+
+      
     </div>
 
     <hr>
-    {{timetableCorrect}}
-   
+    
   
   <button @click="otraComputed">filtrar 2 vez</button>
   </div>
@@ -107,6 +110,23 @@ export default {
           console.log(error);
         });
     },
+  },
+
+  data() {
+    return {
+      timetable: [],
+      timeType:[],
+      visitCode:[]
+    };
+  },
+  computed:{
+    timetableCorrect(){
+      this.timeType = this.timetable.filter(day=>{
+            if(day.timetableType==="LOGISTICS"){
+                return day;
+            }
+          })
+    },
     otraComputed(){
       let a;
       let i;
@@ -134,23 +154,6 @@ export default {
         }
          }
     }
-  },
-
-  data() {
-    return {
-      timetable: [],
-      timeType:[],
-      visitCode:[]
-    };
-  },
-  computed:{
-    timetableCorrect(){
-      this.timeType = this.timetable.filter(day=>{
-            if(day.timetableType==="LOGISTICS"){
-                return day;
-            }
-          })
-    },
     
   }
 };
