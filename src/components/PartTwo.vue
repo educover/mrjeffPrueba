@@ -60,8 +60,8 @@
     </div>
     
     <hr>
-    {{timetableCorrect}}
-   {{otraComputed}}
+   
+   
     <div class="exercise">
       <h1>Ejercicio 5</h1>
       <p>Una vez tenemos los datos formateados, tenemos que mostrarlos por pantalla con el siguiente formato:</p>
@@ -69,10 +69,10 @@
 
       
     </div>
-
+{{timetableCorrect}}
     <hr>
     <div class="table">
-      <thread>
+      <!--<thread>
         <tr>
           <th v-for="item in timeType">
             {{item.dayOfWeek}}
@@ -85,10 +85,12 @@
             {{hour.timeSlotCode}}
           </td>
         </tr>
-      </tbody>
+      </tbody>-->
     </div>
-  
+        <button @click="filtrarDatos">filtrarDatos</button>
+        <button @click="selectDays">selectDays</button>
   </div>
+
 </template>
 
 <script>
@@ -124,51 +126,71 @@ export default {
           console.log(error);
         });
     },
+    filtrarDatos(){
+      let z=0;
+
+      for (let index = 0; index < this.timetableLog.length; index++) {
+        console.log('primer for')
+        for (let i=0 ; i < this.timetableLog[index].defaultTimetableTimeSlotConfigurations.length; i++) {
+          console.log('segundo for')
+          if(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode=="PICKUP"){
+            for (let b = 0; b < this.dataFilter.length; b++) {
+              console.log('no he entrado')
+              if(this.dataFilter[b].dayOfWeek==this.timetableLog[index].dayOfWeek){
+               
+                 this.dataFilter[b].timeSlotCodes.push(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].timeSlotCode)
+              }
+              
+            }
+          }
+        }
+     }
+    },
+    selectDays(){
+      
+      let b = 0;
+      for (let i = 0; i < this.timetable.length; i++) {
+        if(this.timetable[i].timetableType==="LOGISTICS"){
+           let obj= {}
+            obj.dayOfWeek =  this.timetable[i].dayOfWeek;
+            this.dataFilter[b] = obj;
+            b++;
+            obj=null;    
+            }
+      }
+      for (let a = 0; a <  this.dataFilter.length; a++) {
+         this.dataFilter[a].timeSlotCodes = new Array(); 
+      }
+    }
   },
 
   data() {
     return {
       timetable: [],
-      timeType:[],
-      visitCode:[]
+      timetableLog:[],
+      dataFilter:[]
     };
   },
   computed:{
     timetableCorrect(){
-      this.timeType = this.timetable.filter(day=>{
-            if(day.timetableType==="LOGISTICS"){
-                return day;
-            }
-          })
+      this.timetableLog = this.timetable.filter(item=>{
+        if(item.timetableType==="LOGISTICS"){
+          return item;
+      }
+    })
+      
     },
     otraComputed(){
-      let a;
-      let i;
       for (let index = 0; index < this.timeType.length; index++) {
-        a=0;
-        i=0;
-        console.log('----------------------------- iteracion-->'+index)
-        for ( i ; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
-          
-          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){
-             console.log('PICKUP-----------' + this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode + i);
-           
-            
-          }else{
-            console.log('DELIVERY----------'+this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode + i);
-            
-            //console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i])
+        for (let i=0 ; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
+          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){}
+          else{
              this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i, 1);
              i--;
-             //console.log(this.timeType[index].defaultTimetableTimeSlotConfigurations[i-a])
-            
-            
+            } 
           }
-          
-        }
          }
-    }
-    
+      }
   }
 };
 </script>
@@ -217,5 +239,9 @@ code {
   border-radius: 4px;
   margin: 1rem auto;
   width: fit-content;
+}
+
+th, td{
+  padding:1em;
 }
 </style>
