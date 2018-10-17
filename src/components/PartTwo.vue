@@ -71,9 +71,23 @@
     </div>
 
     <hr>
-    
+    <div class="table">
+      <thread>
+        <tr>
+          <th v-for="item in timeType">
+            {{item.dayOfWeek}}
+          </th>
+        </tr>
+      </thread>
+      <tbody>
+        <tr v-for="(item, index) in timeType">
+          <td v-for="hour in item.defaultTimetableTimeSlotConfigurations">
+            {{hour.timeSlotCode}}
+          </td>
+        </tr>
+      </tbody>
+    </div>
   
-  <button @click="otraComputed">filtrar 2 vez</button>
   </div>
 </template>
 
