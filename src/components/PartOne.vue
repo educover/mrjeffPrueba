@@ -1,6 +1,6 @@
 <template>
   <div class="part">
-    <Checkout :steps="miArr" :currentStep="currentStep">
+    <Checkout :steps="miArr" :currentStep="currentStep" @changeCurrent="changeCurrent">
     </Checkout>
     <hr>
     <div class="exercise">
@@ -24,33 +24,33 @@
 </template>
 
 <script>
-import Checkout from './Checkout.vue';
-import {EventBus} from '../EventBus';
+import Checkout from "./Checkout.vue";
 export default {
-  name: 'PartOne',
+  name: "PartOne",
   components: {
     Checkout
   },
-  data () {
+  data() {
     return {
-      url: '../assets/stepper.mov',
-      miArr:['General', 'Contacto', 'Horario', 'Usuarios', 'Finalizar'],
-      currentStep:1,
+      url: "../assets/stepper.mov",
+      miArr: ["General", "Contacto", "Horario", "Usuarios", "Finalizar"],
+      currentStep: 1
+    };
+  },
+  methods: {
+    changeCurrent(current) {
+      if (current === "follow") {
+        if (this.currentStep < 5) {
+          this.currentStep++;
+        }
+      } else if (current === "previous") {
+        if (this.currentStep > 1) {
+          this.currentStep--;
+        }
+      }
     }
-  }, 
-  created() {
-    EventBus.$on('siguiente', ()=>{
-      if(this.currentStep<5){
-      this.currentStep++;
-      }
-    })
-    EventBus.$on('anterior', ()=>{
-      if(this.currentStep>1){
-        this.currentStep--;
-      }
-    })
   }
-}
+};
 </script>
 
 <style>
@@ -64,7 +64,7 @@ export default {
 p {
   width: 100%;
   text-align: left;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 img {
   width: 100%;
@@ -72,9 +72,8 @@ img {
   margin-top: 1rem;
 }
 code {
-  padding: .2rem 1rem;
+  padding: 0.2rem 1rem;
   background-color: rgb(225, 225, 225);
   border-radius: 4px;
-
 }
 </style>

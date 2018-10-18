@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import {EventBus} from '../EventBus';
 export default {
     name: 'checkout',
     props: {
@@ -31,10 +30,10 @@ export default {
     },
     methods:{
         siguiente(){
-            EventBus.$emit('siguiente');
+            this.$emit('changeCurrent', 'follow');
         },
         anterior(){
-            EventBus.$emit('anterior');
+            this.$emit('changeCurrent', 'previous');
         }
     }
 }
