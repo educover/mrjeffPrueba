@@ -74,19 +74,19 @@
 {{filtrarDatos}}
     <hr>
     
-    <template v-if="muestraDatos">
-      <table border="1">
-        <thread>
+    <div v-show="muestraDatos">
+      <div border="1">
+      <table border="0">
+        <thead>
           <tr>
-            <th scope="col" v-for="item in dataFilter" :key="item.dayOfWeek">
+            <th border="0" scope="col" v-for="item in dataFilter" :key="item.dayOfWeek">
               <b>{{item.dayOfWeek}}</b>
             </th>
           </tr>
-        </thread>
+        </thead>
         <tbody>
           <tr>
-            <th scope="row"></th>
-              <td v-for="item in dataFilter" :key="item.dayOfWeek">
+              <td border="0" scope="row" v-for="item in dataFilter" :key="item.dayOfWeek">
               <span class="text" v-for="it in item.timeSlotCodes" :key="it">
                 {{it}}
               </span>
@@ -95,7 +95,8 @@
           </tr>
         </tbody>
       </table>
-    </template>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -162,7 +163,7 @@ export default {
             this.dataFilter[b] = obj;
             b++;
             obj=null;    
-            }
+        }
       }
       for (let a = 0; a <  this.dataFilter.length; a++) {
          this.dataFilter[a].timeSlotCodes = new Array(); 
@@ -237,13 +238,9 @@ code {
   width: fit-content;
 }
 
-.title{
-  border:0.1em;
-  display:inline;
-  width: 1em;
+tbody{
+  margin-top: 05em;
 }
-.text{
-  display:inline;
-}
+
 
 </style>
