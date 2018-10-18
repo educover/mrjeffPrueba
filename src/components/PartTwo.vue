@@ -72,11 +72,29 @@
 {{timetableCorrect}}
 {{selectDays}}
 {{filtrarDatos}}
-
     <hr>
     
     <template v-if="muestraDatos">
-      <h1>HolaMundo</h1>
+      <table border="1">
+        <thread>
+          <tr>
+            <th scope="col" v-for="item in dataFilter" :key="item.dayOfWeek">
+              <b>{{item.dayOfWeek}}</b>
+            </th>
+          </tr>
+        </thread>
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+              <td v-for="item in dataFilter" :key="item.dayOfWeek">
+              <span class="text" v-for="it in item.timeSlotCodes" :key="it">
+                {{it}}
+              </span>
+              </td>
+              
+          </tr>
+        </tbody>
+      </table>
     </template>
   </div>
 
@@ -219,7 +237,13 @@ code {
   width: fit-content;
 }
 
-span{
-  padding:1.3em;
+.title{
+  border:0.1em;
+  display:inline;
+  width: 1em;
 }
+.text{
+  display:inline;
+}
+
 </style>
