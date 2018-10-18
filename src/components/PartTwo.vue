@@ -70,25 +70,14 @@
       
     </div>
 {{timetableCorrect}}
+{{selectDays}}
+{{filtrarDatos}}
+
     <hr>
-    <div class="table">
-      <!--<thread>
-        <tr>
-          <th v-for="item in timeType">
-            {{item.dayOfWeek}}
-          </th>
-        </tr>
-      </thread>
-      <tbody>
-        <tr v-for="(item, index) in timeType">
-          <td v-for="hour in item.defaultTimetableTimeSlotConfigurations">
-            {{hour.timeSlotCode}}
-          </td>
-        </tr>
-      </tbody>-->
-    </div>
-        <button @click="filtrarDatos">filtrarDatos</button>
-        <button @click="selectDays">selectDays</button>
+    
+    <template v-if="muestraDatos">
+      <h1>HolaMundo</h1>
+    </template>
   </div>
 
 </template>
@@ -126,28 +115,27 @@ export default {
           console.log(error);
         });
     },
-    filtrarDatos(){
-      let z=0;
+    
+  },
 
-      for (let index = 0; index < this.timetableLog.length; index++) {
-        console.log('primer for')
-        for (let i=0 ; i < this.timetableLog[index].defaultTimetableTimeSlotConfigurations.length; i++) {
-          console.log('segundo for')
-          if(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode=="PICKUP"){
-            for (let b = 0; b < this.dataFilter.length; b++) {
-              console.log('no he entrado')
-              if(this.dataFilter[b].dayOfWeek==this.timetableLog[index].dayOfWeek){
-               
-                 this.dataFilter[b].timeSlotCodes.push(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].timeSlotCode)
-              }
-              
-            }
-          }
-        }
-     }
+  data() {
+    return {
+      timetable: [],
+      timetableLog:[],
+      dataFilter:[],
+      muestraDatos:false
+    };
+  },
+  computed:{
+    timetableCorrect(){
+      this.timetableLog = this.timetable.filter(item=>{
+        if(item.timetableType==="LOGISTICS"){
+          return item;
+      }
+    })
+      
     },
     selectDays(){
-      
       let b = 0;
       for (let i = 0; i < this.timetable.length; i++) {
         if(this.timetable[i].timetableType==="LOGISTICS"){
@@ -161,36 +149,26 @@ export default {
       for (let a = 0; a <  this.dataFilter.length; a++) {
          this.dataFilter[a].timeSlotCodes = new Array(); 
       }
-    }
-  },
-
-  data() {
-    return {
-      timetable: [],
-      timetableLog:[],
-      dataFilter:[]
-    };
-  },
-  computed:{
-    timetableCorrect(){
-      this.timetableLog = this.timetable.filter(item=>{
-        if(item.timetableType==="LOGISTICS"){
-          return item;
-      }
-    })
-      
     },
-    otraComputed(){
-      for (let index = 0; index < this.timeType.length; index++) {
-        for (let i=0 ; i < this.timeType[index].defaultTimetableTimeSlotConfigurations.length; i++) {
-          if(this.timeType[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode==="PICKUP"){}
-          else{
-             this.timeType[index].defaultTimetableTimeSlotConfigurations.splice(i, 1);
-             i--;
-            } 
+    filtrarDatos(){
+      let z=0;
+      for (let index = 0; index < this.timetableLog.length; index++) {
+        for (let i=0 ; i < this.timetableLog[index].defaultTimetableTimeSlotConfigurations.length; i++) {
+          if(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].visitTypeCode=="PICKUP"){
+            for (let b = 0; b < this.dataFilter.length; b++) {
+              if(this.dataFilter[b].dayOfWeek==this.timetableLog[index].dayOfWeek){
+                 this.dataFilter[b].timeSlotCodes.push(this.timetableLog[index].defaultTimetableTimeSlotConfigurations[i].timeSlotCode)
+              }
+            }
+
           }
-         }
-      }
+        }
+        this.dataFilter[index].timeSlotCodes.sort();
+     }
+     console.log(this.dataFilter)
+     
+      this.muestraDatos=true;
+    }
   }
 };
 </script>
@@ -241,7 +219,7 @@ code {
   width: fit-content;
 }
 
-th, td{
-  padding:1em;
+span{
+  padding:1.3em;
 }
 </style>
