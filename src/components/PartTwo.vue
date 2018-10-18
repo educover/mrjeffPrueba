@@ -75,18 +75,18 @@
     <hr>
     
     <div v-show="muestraDatos">
-      <div border="1">
-      <table border="0">
+      <div class="table">
+      <table>
         <thead>
           <tr>
-            <th border="0" scope="col" v-for="item in dataFilter" :key="item.dayOfWeek">
+            <th scope="col" v-for="item in dataFilter" :key="item.dayOfWeek">
               <b>{{item.dayOfWeek}}</b>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-              <td border="0" scope="row" v-for="item in dataFilter" :key="item.dayOfWeek">
+              <td scope="row" v-for="item in dataFilter" :key="item.dayOfWeek">
               <span class="text" v-for="it in item.timeSlotCodes" :key="it">
                 {{it}}
               </span>
@@ -238,9 +238,13 @@ code {
   width: fit-content;
 }
 
-tbody{
-  margin-top: 05em;
+.table{
+  border:black 1px solid;
+  padding:1em;
 }
 
+tr, th{
+  margin-bottom: 4em;
+}
 
 </style>
